@@ -36,7 +36,7 @@ query fetchViewer {
 }
 ```
 - operation nameとして`fetchViewer`を使っている operation nameがあると、queryは省略できない
-- `viewer`, `user`, `login`はFieldと呼ばれるもの
+- `viewer`, `user`, `login`, `bio`はFieldと呼ばれるもの
 - `user`に引数を指定して、該当のユーザーの情報を取得している
 - Fieldの型はドキュメントを見て確かめる !がついているものはnullが許容されない (ex. `String!`など)
 
@@ -144,7 +144,7 @@ fragment commonFields on User {
 ```
 
 ## operation name
-- 複数のリクエストを書くときは、OperationNameをつける(リクエストを区別するため)
+- 複数のリクエストを書くときは、operation nameをつける(リクエストを区別するため)
 
 ```graphql
 query getUser1 {
