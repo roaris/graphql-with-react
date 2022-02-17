@@ -37,8 +37,12 @@ const App = () => {
           ({ loading, error, data }) => {
             if (loading) return 'Loading...';
             if (error) return `Error! ${error.message}`
-            console.log({data});
-            return <div></div>
+
+            const search = data.search;
+            const repositoryCount = search.repositoryCount;
+            const repositoryUnit = repositoryCount === 1 ? 'Repository' : 'Repositories';
+            const title = `GitHub Repositories Search Results - ${repositoryCount} ${repositoryUnit}`
+            return <h1>{title}</h1>
           }
         }
       </Query>
