@@ -1,4 +1,4 @@
-# graphql_with_react
+# graphql-with-react
 
 - https://www.udemy.com/course/graphql-with-react/
 - RESTに比べて柔軟にデータを取ることができるのがメリット
