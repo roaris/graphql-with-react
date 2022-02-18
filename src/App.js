@@ -3,8 +3,7 @@ import { ApolloProvider, Query, Mutation } from 'react-apollo';
 import client from './client';
 import { SEARCH_REPOSITORIES, ADD_STAR, REMOVE_STAR } from './graphql'
 
-const StarButton = props => {
-  const node = props.node;
+const StarButton = ({ node, query, first, last, before, after }) => {
   const totalCount = node.stargazers.totalCount;
   const viewerHasStarred = node.viewerHasStarred;
   const starCount = totalCount === 1 ? '1 star' : `${totalCount} stars`;
@@ -22,7 +21,17 @@ const StarButton = props => {
     );
   }
   return (
-    <Mutation mutation={viewerHasStarred ? REMOVE_STAR : ADD_STAR}>
+    <Mutation
+      mutation={viewerHasStarred ? REMOVE_STAR : ADD_STAR}
+      refetchQueries={
+        [
+          {
+            query: SEARCH_REPOSITORIES,
+            variables: { query, first, last, before, after }
+          }
+        ]
+      }
+    >
       {
         addOrRemoveStar => <StarStatus addOrRemoveStar={addOrRemoveStar}/>
       }
@@ -102,7 +111,7 @@ const App = () => {
                           {/* target="_blank" だけだと、リンク先のページからリンク元のページを操作できてしまう */}
                           <a href={node.url} target="_blank" rel="noopener noreferrer">{node.name}</a>
                           &nbsp;
-                          <StarButton node={node} />
+                          <StarButton node={node} {...{query, first, last, before, after}} />
                         </li>
                       )
                     })
