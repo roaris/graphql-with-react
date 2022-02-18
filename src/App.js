@@ -26,10 +26,23 @@ const App = () => {
     }) // スプレッド構文
   };
 
+  const goPrevious = (search) => {
+    setVariables({
+      ...variables,
+      first: null,
+      after: null,
+      last: PER_PAGE,
+      before: search.pageInfo.startCursor,
+    })
+  }
+
   const goNext = (search) => {
     setVariables({
       ...variables,
+      first: PER_PAGE,
       after: search.pageInfo.endCursor,
+      last: null,
+      before: null,
     })
   };
 
@@ -67,6 +80,9 @@ const App = () => {
                     })
                   }
                 </ul>
+                {
+                  search.pageInfo.hasPreviousPage && <button onClick={() => goPrevious(search)}>Previous</button>
+                }
                 {
                   search.pageInfo.hasNextPage && <button onClick={() => goNext(search)}>Next</button>
                 }
