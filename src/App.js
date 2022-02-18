@@ -57,19 +57,23 @@ const DEFAULT_STATE = {
   after: null,
   last: null,
   before: null,
-  query: 'フロントエンドエンジニア'
+  query: ''
 };
 
 const App = () => {
   const [variables, setVariables] = useState(DEFAULT_STATE);
   const { query, first, last, before, after } = variables;
-  console.log({query});
+  const ref = React.createRef();
 
-  const handleChange = (e) => {
+  const handleSubmit = (e) => {
+    e.preventDefault(); // デフォルト動作(リロード)を防ぐ
     setVariables({
-      ...variables,
-      query: e.target.value
-    }) // スプレッド構文
+      query: ref.current.value,
+      first: PER_PAGE,
+      after: null,
+      last: null,
+      before: null,
+    })
   };
 
   const goPrevious = (search) => {
@@ -94,8 +98,9 @@ const App = () => {
 
   return (
     <ApolloProvider client={client}>
-      <form>
-        <input value={query} onChange={handleChange}></input>
+      <form onSubmit={handleSubmit}>
+        <input ref={ref} />
+        <input type='submit' value='submit' />
       </form>
       <Query
         query={SEARCH_REPOSITORIES}
